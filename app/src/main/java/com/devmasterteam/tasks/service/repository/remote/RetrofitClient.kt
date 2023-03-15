@@ -15,7 +15,7 @@ class RetrofitClient private constructor() {
             if (!::INSTANCE.isInitialized) {
                 synchronized(RetrofitClient::class) {
                     INSTANCE = Retrofit.Builder()
-                        .baseUrl("http://devmasterteam.com/CursoAndroid API/")
+                        .baseUrl("http://devmasterteam.com/CursoAndroidAPI/")
                         .client(httpClient)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
