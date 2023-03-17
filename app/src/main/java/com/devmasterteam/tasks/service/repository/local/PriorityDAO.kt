@@ -12,4 +12,7 @@ interface PriorityDAO {
 
     @Query("Select * from Priority")
     fun list(): List<PriorityModel>
+
+    @Query("delete from Priority ")
+    fun clear()
 }
