@@ -17,6 +17,8 @@ class PriorityRepository(val context : Context) {
 
     private val remote = RetrofitClient.getService(PriorityService::class.java)
     private val database = TaskDatabase.getDatabase(context).priorityDAO()
+
+    // Para usar com API
     fun list(listner: APIListener<List<PriorityModel>>){
         val call = remote.list()
         call.enqueue(object  : Callback<List<PriorityModel>>{
@@ -34,6 +36,11 @@ class PriorityRepository(val context : Context) {
             }
 
         })
+    }
+
+    // Para usar com o Banco
+    fun list():List<PriorityModel>{
+        return database.list()
     }
 
     fun save(list: List<PriorityModel>){
