@@ -10,12 +10,12 @@ class PersonModel {
     }*/
 
     @SerializedName("token")
-    lateinit var token :String
+    lateinit var token: String
 
     @SerializedName("personKey")
-    lateinit var personKey :String
+    lateinit var personKey: String
 
     @SerializedName("name")
-    lateinit var name :String
+    lateinit var name: String
 
 }

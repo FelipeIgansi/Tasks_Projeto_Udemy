@@ -1,10 +1,10 @@
 package com.devmasterteam.tasks.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.devmasterteam.tasks.R
 import com.devmasterteam.tasks.databinding.ActivityLoginBinding
@@ -51,12 +51,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             if (it.status()) {
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
-            }
-            else Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
+            } else Toast.makeText(applicationContext, it.message(), Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.loggedUser.observe(this){
-            if (it){
+        viewModel.loggedUser.observe(this) {
+            if (it) {
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }

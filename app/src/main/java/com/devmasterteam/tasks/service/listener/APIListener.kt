@@ -2,5 +2,5 @@ package com.devmasterteam.tasks.service.listener
 
 interface APIListener<T> {
     fun onSuccess(result: T)
-    fun onFail(message : String)
+    fun onFail(message: String)
 }

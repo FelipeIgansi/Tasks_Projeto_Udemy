@@ -39,16 +39,16 @@ interface TaskService {
 
     @PUT("Task/Complete")
     @FormUrlEncoded
-    fun complete(@Field("id") id : Int):Call<Boolean>
+    fun complete(@Field("id") id: Int): Call<Boolean>
 
 
     @PUT("Task/Undo")
     @FormUrlEncoded
-    fun undo(@Field("id") id : Int):Call<Boolean>
+    fun undo(@Field("id") id: Int): Call<Boolean>
 
 
     // TODO Vai dar ruim aqui
     @DELETE("Task")
     @FormUrlEncoded
-    fun delete(@Field("id") id : Int):Call<Boolean>
+    fun delete(@Field("id") id: Int): Call<Boolean>
 }
