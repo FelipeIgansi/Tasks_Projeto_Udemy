@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.devmasterteam.tasks.R
@@ -53,7 +54,21 @@ class TaskFormActivity : AppCompatActivity(), View.OnClickListener,
             binding.spinnerPriority.adapter = adapter
 
         }
+
+        viewModel.taskSave.observe(this){
+            if (it.status()){
+                toast("Sucesso")
+                finish()
+            }else{
+                toast(it.message())
+            }
+        }
     }
+
+    private fun toast(str: String){
+        Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT ).show()
+    }
+
 
     override fun onClick(v: View) {
         if (v.id == R.id.button_date) handleDate()
