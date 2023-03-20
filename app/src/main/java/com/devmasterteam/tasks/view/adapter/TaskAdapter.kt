@@ -9,7 +9,6 @@ import com.devmasterteam.tasks.service.model.TaskModel
 import com.devmasterteam.tasks.view.viewholder.TaskViewHolder
 
 class TaskAdapter : RecyclerView.Adapter<TaskViewHolder>() {
-
     private var listTasks: List<TaskModel> = arrayListOf()
     private lateinit var listener: TaskListener
 
@@ -25,6 +24,11 @@ class TaskAdapter : RecyclerView.Adapter<TaskViewHolder>() {
 
     override fun getItemCount(): Int {
         return listTasks.count()
+    }
+
+    fun updateTasks(list: List<TaskModel>){
+        listTasks = list
+        notifyDataSetChanged()
     }
 
     fun attachListener(taskListener: TaskListener) {
