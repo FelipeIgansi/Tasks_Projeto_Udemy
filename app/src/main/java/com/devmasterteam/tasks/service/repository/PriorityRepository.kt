@@ -40,6 +40,31 @@ class PriorityRepository(val context: Context) : BaseRepository() {
         return database.list()
     }
 
+    /** Cache:
+     * Basicamente ele vai guardar a informação de algo que ele já tenha "visto"
+     * Assim se o código já vai saber que o significado de um valor e não precisará
+     * passar por ele mais vezes
+     * */
+
+    companion object{
+        private val cache = mutableMapOf<Int, String >()
+        fun getDescription(id: Int):String{
+            return cache[id] ?: ""
+        }
+        fun setDescription(id:Int, str:String){
+            cache[id] = str
+        }
+    }
+    fun getDescription(id:Int):String{
+        val cached = PriorityRepository.getDescription(id)
+        return if (cached == ""){
+            val description = database.getDescription(id)
+            setDescription(id, description)
+            description
+        } else cached
+
+    }
+
     fun save(list: List<PriorityModel>) {
         database.clear()
         database.save(list)
