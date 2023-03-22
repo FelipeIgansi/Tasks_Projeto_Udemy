@@ -63,13 +63,25 @@ class TaskRepository(val context: Context) : BaseRepository() {
         })
     }
 
-    //update
+    //    update
 
-    //complete
+    //    complete
 
-    //undo
+    //    undo
 
-    //delete
+    //    delete
+    fun delete (id:Int, listner: APIListener<Boolean>){
+        val call = remote.delete(id)
+        call.enqueue(object : Callback<Boolean>{
+            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                handleResponse(response, listner)
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                listner.onFail(context.getString(R.string.ERROR_UNEXPECTED))
+            }
+        })
+    }
 
 
 }
