@@ -10,7 +10,7 @@ import com.devmasterteam.tasks.service.model.ValidationModel
 import com.devmasterteam.tasks.service.repository.PriorityRepository
 import com.devmasterteam.tasks.service.repository.TaskRepository
 
-class TaskListViewModel(application: Application ) : AndroidViewModel(application) {
+class TaskListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val taskRepository = TaskRepository(application.applicationContext)
     private val priorityRepository = PriorityRepository(application.applicationContext)
@@ -22,10 +22,13 @@ class TaskListViewModel(application: Application ) : AndroidViewModel(applicatio
     private val _delete = MutableLiveData<ValidationModel>()
     val delete: LiveData<ValidationModel> = _delete
 
-    fun list (){
-        taskRepository.listAll(object : APIListener<List<TaskModel>>{
+    private val _status = MutableLiveData<ValidationModel>()
+    val status: LiveData<ValidationModel> = _status
+
+    fun list() {
+        taskRepository.listAll(object : APIListener<List<TaskModel>> {
             override fun onSuccess(result: List<TaskModel>) {
-                result.forEach{
+                result.forEach {
                     it.priorityDescription = priorityRepository.getDescription(it.priorityId)
                 }
                 _tasks.value = result
@@ -36,17 +39,28 @@ class TaskListViewModel(application: Application ) : AndroidViewModel(applicatio
 
         })
     }
-    fun delete(id:Int){
-        taskRepository.delete(id, object :APIListener<Boolean>{
+
+    fun delete(id: Int) {
+        taskRepository.delete(id, object : APIListener<Boolean> {
             override fun onSuccess(result: Boolean) {
                 list()
             }
 
             override fun onFail(message: String) {
-                _delete.value = ValidationModel(message)
+                _status.value = ValidationModel(message)
             }
 
         })
     }
 
+    fun status(id: Int, complete: Boolean) {
+        val listener =  object : APIListener<Boolean> {
+            override fun onSuccess(result: Boolean) = list()
+            override fun onFail(message: String) {
+                _delete.value = ValidationModel(message)
+            }
+        }
+        if (complete) taskRepository.complete(id,listener)
+        else taskRepository.undo(id, listener)
+    }
 }
