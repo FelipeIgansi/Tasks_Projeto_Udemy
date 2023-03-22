@@ -26,29 +26,39 @@ class TaskRepository(context: Context) : BaseRepository(context) {
     }
 
     //load
+    fun load(id: Int, listner: APIListener<TaskModel>) {
+        val call = remote.load(id)
+        executeCall(call, listner)
+    }
 
+    //Create
     fun create(task: TaskModel, listner: APIListener<Boolean>) {
         val call = remote.crete(task.priorityId, task.description, task.dueDate, task.complete)
         executeCall(call, listner)
     }
 
     //    update
-
-    //    complete
-
-    //    undo
-
-    //    delete
-    fun delete(id: Int, listner: APIListener<Boolean>) {
-        val call = remote.delete(id)
+    fun update(task: TaskModel, listner: APIListener<Boolean>) {
+        val call =
+            remote.update(task.id, task.priorityId, task.description, task.dueDate, task.complete)
         executeCall(call, listner)
     }
+
+    //    complete
     fun complete(id: Int, listner: APIListener<Boolean>) {
         val call = remote.complete(id)
         executeCall(call, listner)
     }
+
+    //    undo
     fun undo(id: Int, listner: APIListener<Boolean>) {
         val call = remote.undo(id)
+        executeCall(call, listner)
+    }
+
+    //    delete
+    fun delete(id: Int, listner: APIListener<Boolean>) {
+        val call = remote.delete(id)
         executeCall(call, listner)
     }
 }
