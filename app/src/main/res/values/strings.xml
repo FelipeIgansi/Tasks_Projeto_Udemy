@@ -32,5 +32,8 @@
     <string name="expiradas">Expiradas</string>
     <string name="todas_tarefas">Tarefas</string>
     <string name="proximos_7_dias">Próximos 7 dias</string>
+    <string name="btn_valueupdate">Atualizar</string>
+    <string name="pattern_br">dd/MM/yyyy</string>
+    <string name="pattern_us">yyyy-MM-dd</string>
 
 </resources>

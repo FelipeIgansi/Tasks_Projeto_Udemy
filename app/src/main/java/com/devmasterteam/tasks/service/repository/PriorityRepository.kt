@@ -1,6 +1,7 @@
 package com.devmasterteam.tasks.service.repository
 
 import android.content.Context
+import com.devmasterteam.tasks.R
 import com.devmasterteam.tasks.service.listener.APIListener
 import com.devmasterteam.tasks.service.model.PriorityModel
 import com.devmasterteam.tasks.service.repository.local.TaskDatabase
@@ -14,6 +15,10 @@ class PriorityRepository(context: Context) : BaseRepository(context) {
 
     // Para usar com API
     fun list(listner: APIListener<List<PriorityModel>>) {
+        if (!isConnectionAvaliable()){
+            listner.onFail(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
         executeCall(remote.list(), listner)
     }
 
