@@ -17,18 +17,18 @@ open class BaseRepository(val context: Context) {
         return Gson().fromJson(str, String::class.java)
     }
 
-    fun <G> executeCall(call: Call<G>, listner: APIListener<G>) {
+    fun <G> executeCall(call: Call<G>, listener: APIListener<G>) {
         call.enqueue(object : Callback<G> {
             override fun onResponse(call: Call<G>, response: Response<G>) {
                 if (response.code() == TaskConstants.HTTP.SUCCESS) {
-                    response.body()?.let { listner.onSuccess(it) }
+                    response.body()?.let { listener.onSuccess(it) }
                 } else {
-                    listner.onFail(failResponse(response.errorBody()!!.string()))
+                    listener.onFail(failResponse(response.errorBody()!!.string()))
                 }
             }
 
             override fun onFailure(call: Call<G>, t: Throwable) {
-                listner.onFail(context.getString(R.string.ERROR_UNEXPECTED))
+                listener.onFail(context.getString(R.string.ERROR_UNEXPECTED))
             }
         })
     }
@@ -36,7 +36,7 @@ open class BaseRepository(val context: Context) {
     fun isConnectionAvaliable(): Boolean {
         var result = false
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val activeNet = cm.activeNetwork ?: return false
             val netWorkCapabilities = cm.getNetworkCapabilities(activeNet) ?: return false
 
@@ -46,9 +46,9 @@ open class BaseRepository(val context: Context) {
                 netWorkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
                 else -> false
             }
-        }else{
-            if (cm.activeNetworkInfo!= null){
-                result = when(cm.activeNetworkInfo!!.type){
+        } else {
+            if (cm.activeNetworkInfo != null) {
+                result = when (cm.activeNetworkInfo!!.type) {
                     ConnectivityManager.TYPE_WIFI -> true
                     ConnectivityManager.TYPE_MOBILE -> true
                     ConnectivityManager.TYPE_ETHERNET -> true
@@ -56,6 +56,6 @@ open class BaseRepository(val context: Context) {
                 }
             }
         }
-        return  result
+        return result
     }
 }

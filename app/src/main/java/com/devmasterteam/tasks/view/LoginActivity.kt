@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
 
         // Variáveis da classe
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         binding = ActivityLoginBinding.inflate(layoutInflater)
 
         // Layout

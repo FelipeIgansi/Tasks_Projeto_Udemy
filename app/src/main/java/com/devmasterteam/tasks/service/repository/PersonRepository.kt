@@ -9,13 +9,22 @@ import com.devmasterteam.tasks.service.repository.remote.RetrofitClient
 
 class PersonRepository(context: Context) : BaseRepository(context) {
     private val remote = RetrofitClient.getService(PersonService::class.java)
-    fun login(email: String, password: String, listner: APIListener<PersonModel>) {
 
-        if (!isConnectionAvaliable()){
-            listner.onFail(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+    fun login(email: String, password: String, listener: APIListener<PersonModel>) {
+        if (!isConnectionAvaliable()) {
+            listener.onFail(context.getString(R.string.ERROR_INTERNET_CONNECTION))
             return
         }
-        val call = remote.login(email, password)
-        executeCall(call, listner)
+
+        executeCall(remote.login(email, password), listener)
+    }
+
+    fun create(name: String, email: String, password: String, listener: APIListener<PersonModel>) {
+        if (!isConnectionAvaliable()) {
+            listener.onFail(context.getString(R.string.ERROR_INTERNET_CONNECTION))
+            return
+        }
+
+        executeCall(remote.create(name, email, password), listener)
     }
 }
