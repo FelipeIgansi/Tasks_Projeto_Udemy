@@ -35,5 +35,6 @@
     <string name="btn_valueupdate">Atualizar</string>
     <string name="pattern_br">dd/MM/yyyy</string>
     <string name="pattern_us">yyyy-MM-dd</string>
+    <string name="text_data_limite">Data limite:</string>
 
 </resources>

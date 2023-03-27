@@ -1,6 +1,7 @@
 package com.devmasterteam.tasks.viewmodel
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,8 +14,9 @@ import com.devmasterteam.tasks.service.repository.PersonRepository
 import com.devmasterteam.tasks.service.repository.PriorityRepository
 import com.devmasterteam.tasks.service.repository.SecurityPreferences
 import com.devmasterteam.tasks.service.repository.remote.RetrofitClient
+import com.devmasterteam.tasks.service.security.BiometricHelper
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class LoginViewModel(private val application: Application) : AndroidViewModel(application) {
 
     private val personRepository = PersonRepository(application.applicationContext)
     private val securityPreferences = SecurityPreferences(application.applicationContext)
@@ -52,7 +54,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * Verifica se usuário está logado
      */
-    fun verifyLoggedUser() {
+    fun verifyAutentication() {
         val token = securityPreferences.get(TaskConstants.SHARED.TOKEN_KEY)
         val person = securityPreferences.get(TaskConstants.SHARED.PERSON_KEY)
 
@@ -61,7 +63,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
         val logged = (token != "" && person != "")
 
-        _loggedUser.value = logged
+
 
         if (!logged) {
             priorityRepository.list(object : APIListener<List<PriorityModel>> {
@@ -70,11 +72,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 override fun onFail(message: String) {
-                    val s = ""
+                    Toast.makeText(application, "Ocorreu um erro ao tentar logar", Toast.LENGTH_SHORT).show()
                 }
 
             })
         }
+
+        _loggedUser.value = (logged && BiometricHelper.isBiometricAvaliable(getApplication()))
     }
 
 }
